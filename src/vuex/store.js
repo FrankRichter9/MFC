@@ -91,12 +91,42 @@ let store = new Vuex.Store({
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
-            .then(data => {
-                console.log(data)
-                    commit('SET_ORGANIZATIONS', data.data)
+            .then(organizations => {
+                
+                    
                     
                 
-                return data;
+                return organizations.data;
+            }).then(organizations => {
+                axios('http://localhost:8000/organizations_office/', {
+                    method: 'GET',
+                    headers: {
+                        Authorization: 'Bearer ' + localStorage.getItem('token')
+                    }
+                })
+                .then(offices => {
+                        let editOffices = offices.data.map(office => {
+                            let obj = office
+                            obj.organization = parseInt(office.organization.replace('http://localhost:8000/organizations/', ''))
+                            return obj
+                        })
+                        
+
+                        let editOrganizations = organizations.map(organization => {
+                            let editOrganization = organization
+                            editOrganization.offices = editOffices.filter(office => office.organization === organization.id)
+                            return editOrganization
+                        })
+
+                        commit('SET_ORGANIZATIONS', editOrganizations)
+                        
+                    
+                    return offices;
+                })
+                .catch(error => {
+                    return error.response.data
+                    
+                })
             })
             .catch(error => {
                 return error.response.data

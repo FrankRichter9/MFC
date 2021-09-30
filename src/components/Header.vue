@@ -6,15 +6,21 @@
           </div>
           <nav class="header__nav-block">
               <ul class="header__nav-list">
-                  <li class="nav-list__item">
+                  <li class="nav-list__item"
+                    v-show="isLogin"
+                  >
                       <router-link to="/" class="header__link">Главная</router-link> 
                   </li>
-                  <li class="nav-list__item">
+                  <li class="nav-list__item"
+                    v-show="isLogin"
+                  >
                        <router-link to="/Organizations" class="header__link">Организации</router-link>
                   </li>
-                  <li class="nav-list__item">
+                  <!-- <li class="nav-list__item"
+                    v-show="isLogin"
+                  >
                       Услуги
-                  </li>
+                  </li> -->
                   <li class="nav-list__item">
                       <router-link to="/Users" class="header__link" v-show="isWorker">Пользователи</router-link>
                   </li>
@@ -38,6 +44,9 @@ export default {
         },
         isWorker(){
             return localStorage.getItem('user-permission') === 'true'
+        },
+        isLogin(){
+            return !!localStorage.getItem('username')
         }
     }
 }

@@ -28,7 +28,7 @@
                     </select>
                 </section>
 
-              <button type="button" class="add-btn">+  Зарегистрировать пользователя</button>
+              <!-- <button type="button" class="add-btn">+  Зарегистрировать пользователя</button> -->
           </form>
 
           <ul class="offices-list">

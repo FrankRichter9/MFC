@@ -97,7 +97,7 @@ export default {
             return 'Войти'
         },
         isWorker(){
-            return localStorage.getItem('user-permission') === 'true'
+            return localStorage.getItem('user-permission') === 'true' && localStorage.getItem('username') === 'admin'
         }
         
     },

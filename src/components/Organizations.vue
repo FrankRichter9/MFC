@@ -32,8 +32,9 @@
               <li class="offices-list__item"
                 v-for="organization in search(GET_ORGANIZATIONS)"
                 :key="organization.id"
+                
               >
-                  <section class="offices-list__item-info">
+                  <section class="offices-list__item-info" @click="openPopup(organization.id)">
                         <span class="offices-list__item__header">
                         {{organization.name}}
                     </span>
@@ -46,10 +47,13 @@
                         
                     </ul>
                     
-                    <!-- <span class="offices-list__item__phone">
-                        <a href="#">8-435-245-23-33</a>
-                    </span> -->
+                    
                   </section>
+                  <PopupOrganization
+                        v-show="popup && organization.id === index"
+                        @closed="popup = false"
+                        :organization="organization"
+                    />
               </li>
           </ul>
       </section>
@@ -58,12 +62,18 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import PopupOrganization from '@/components/PopupOrganization'
 
 export default {
     name: 'Organizations',
+    components: {
+        PopupOrganization
+    },
     data(){
         return {
-            searchInput: ''
+            searchInput: '',
+            popup: false,
+            index: '',
         }
     },
     computed: {
@@ -71,7 +81,7 @@ export default {
             'GET_ORGANIZATIONS'
         ]),
         isWorker(){
-            return localStorage.getItem('user-permission') === 'true'
+            return localStorage.getItem('user-permission') === 'true' && localStorage.getItem('username') === 'admin'
         }
     },
     methods: {
@@ -89,6 +99,10 @@ export default {
 
                 return searchArr
             }
+        },
+        openPopup(idx){
+            this.popup = true;
+            this.index = idx;
         }
     },
     mounted(){

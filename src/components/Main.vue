@@ -1,14 +1,15 @@
 <template>
   <article class="main-page">
       <section class="container">
-          <router-link to="/offices" class="link">
-            <article class="organization-office main-block">
+          <NotLogin v-if="!isLogin" />
+          <router-link to="/offices" class="link" v-if="isLogin">
+            <article class="organization-office main-block" >
                 <img src="@/assets/img/free-icon-online-meeting-5601939.png" alt="" class="main-block__img">
                 <span class="main-block__text">Найти офис</span>
             </article>
           </router-link>
 
-            <router-link to="/Organizations" class="link">
+            <router-link to="/Organizations" class="link" v-if="isLogin">
           <article class="organization main-block">
               <img src="@/assets/img/free-icon-discussion-5601981.png" alt="" class="main-block__img">
               <span class="main-block__text">Доступные организации</span>
@@ -16,7 +17,7 @@
             </router-link>
 
 
-          <article class="services main-block">
+          <article class="services main-block" v-if="isLogin">
               <img src="@/assets/img/free-icon-change-5601887.png" alt="" class="main-block__img">
               <span class="main-block__text">Предоставляемые услуги</span>
           </article>
@@ -33,13 +34,17 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex'
+import NotLogin from '@/components/NotLogin.vue'
 
 export default {
     name: 'Main',
     computed:   {
         isLogin(){
-            if(localStorage.getItem('token'))return true
+            return !!localStorage.getItem('token')
         }
+    },
+    components: {
+        NotLogin
     }
         
 }

@@ -61,7 +61,7 @@ export default {
 
             if(response.status === 200){
                 localStorage.setItem('token', response.data.access)
-                this.API_USERS()
+                await this.API_USERS()
 
                 let user = this.GET_USERS.filter(user => user.username === this.login)
                 
@@ -96,7 +96,7 @@ export default {
         }
     },
     mounted(){
-        
+        this.API_USERS()
         if(localStorage.key('token') && localStorage.key('username')){
             this.username = localStorage.getItem('username')
         }
